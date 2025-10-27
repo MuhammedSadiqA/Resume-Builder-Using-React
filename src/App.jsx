@@ -1,15 +1,28 @@
+import {Route, Routes } from 'react-router-dom'
 import './App.css'
-import Button from '@mui/material/Button';
+// import pages from files to App.jsx
+import LandingPage from "./pages/LandingPage"
+import ResumeGenerator from "./pages/ResumeGenerator"
+import UserForm from "./pages/UserForm"
+import History from "./pages/History"
+import Pnf from "./pages/Pnf"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+
 
 function App() {
  
   return (
     <>
-<div className='btn d-flex align-items-center'>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-</div>
+    <Header/>
+    <Routes>
+    <Route path='/' element={<LandingPage/>}/>
+    <Route path='resume' element={<ResumeGenerator/>}/>
+    <Route path='/form' element={<UserForm/>}/>
+    <Route path='/history' element={<History/>}/>
+    <Route path='/*' element={<Pnf/>}/>
+    </Routes>
+    <Footer/>
     </>
   )
 }
