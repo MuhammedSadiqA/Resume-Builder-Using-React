@@ -14,7 +14,7 @@ function Header() {
   const projectInfo="⚛️ React — A JavaScript library for building fast, reusable, and interactive user interfaces. It uses components to manage UI efficiently and updates only what’s needed when data changes."
   return (
 <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{backgroundColor:'blue'}}>
+      <AppBar position="static" sx={{backgroundColor:'purple'}}>
         <Toolbar>
           <IconButton
             size="large"

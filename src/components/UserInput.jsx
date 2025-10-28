@@ -6,11 +6,13 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import { FaNodeJs } from "react-icons/fa6";
 
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
 function UserInput() {
+    const skillSuggestionArray = ['NODE.JS', 'MONGO DB', 'EXPRESS JS', 'REACT', 'ANGULAR', 'JAVASCRIPT', 'LEADERSHIP', 'COMMUNICATION', 'COACHING', 'POWER BI', 'MS EXCEL']
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
 
@@ -98,11 +100,34 @@ function UserInput() {
             case 4: return (
                 <div>
                     <h3>Skills</h3>
-                </div>
+                    <div className='d-flex align-items-center justify-content-between'>
+                        <input className='w-100' placeholder='Add skill' type="text" />
+                        <Button variant='text'>ADD</Button>
+                    </div>
+                    <h5>Suggestions :</h5>
+                    {/* skill buttons*/}
+                    <div>
+                        {
+                            skillSuggestionArray.map((item, index) => (
+                                <Button className='m-1' key={index} variant="outlined">{item}</Button>
+                            ))
+                        }
+                    </div>
+                    <h5>Added Skills</h5>
+                    <div className='d-flex align-items-center justify-content-between'>
+                        <Button variant="contained" className='m-1' >Node <FaNodeJs className='ms-2' /></Button>
+
+                    </div>
+                </div >
             )
             case 5: return (
                 <div>
                     <h3>Summary</h3>
+                    <div className="p-3 row">
+                        <TextField id="standard-basic-summary" label="write a short summary of yourself" variant="standard" multiline rows={4}
+                        defaultValue={'MERN Stack Developer skilled in building full-stack web applications using MongoDB, Express.js, React.js, and Node.js. Experienced in designing responsive front-ends, developing RESTful APIs, and managing databases. Passionate about clean code, performance optimization, and delivering scalable, user-friendly solutions.'}  />
+
+                    </div>
                 </div>
             )
             default: return
