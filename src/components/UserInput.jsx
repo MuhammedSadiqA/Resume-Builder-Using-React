@@ -6,8 +6,9 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { FaNodeJs } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
 import { duration } from '@mui/material';
+import { resume } from 'react-dom/server';
 
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
@@ -38,7 +39,21 @@ function UserInput() {
         summary: "",
     })
     console.log(resumeDetails);
-    
+
+    const skillRef = React.useRef()
+
+    const addSkill = (skill) => {
+        if (resumeDetails.userSkills.includes(skill)) {
+            alert("Skill already added")
+        } else {
+            setResumeDetails({ ...resumeDetails, userSkills: [...resumeDetails.userSkills, skill], })
+            skillRef.current.value = ""
+        }
+    }
+
+    const removeSkill = (skill) => {
+        setResumeDetails({...resumeDetails,userSkills: resumeDetails.userSkills.filter(item=>item!=skill)})
+    }
 
     const isStepOptional = (step) => {
         return step === 1;
@@ -82,42 +97,44 @@ function UserInput() {
         setActiveStep(0);
     };
 
+
+
     const renderStep = (stepCount) => {
         switch (stepCount) {
             case 0: return (
                 <div className='row p-3'>
                     <h3>Personal Details:</h3>
-                    <TextField value={resumeDetails.username} onChange={e=>setResumeDetails({...resumeDetails,username:e.target.value})} id="standard-basic-name"  label="Full Name" variant="standard" />
-                    <TextField value={resumeDetails.jobTitle} onChange={e=>setResumeDetails({...resumeDetails,jobTitle:e.target.value})} id="standard-basic-job" label="Job Title" variant="standard" />
-                    <TextField value={resumeDetails.location} onChange={e=>setResumeDetails({...resumeDetails,location:e.target.value})} id="standard-basic-location" label="Location" variant="standard" />
+                    <TextField value={resumeDetails.username} onChange={e => setResumeDetails({ ...resumeDetails, username: e.target.value })} id="standard-basic-name" label="Full Name" variant="standard" />
+                    <TextField value={resumeDetails.jobTitle} onChange={e => setResumeDetails({ ...resumeDetails, jobTitle: e.target.value })} id="standard-basic-job" label="Job Title" variant="standard" />
+                    <TextField value={resumeDetails.location} onChange={e => setResumeDetails({ ...resumeDetails, location: e.target.value })} id="standard-basic-location" label="Location" variant="standard" />
                 </div>
             )
             case 1: return (
                 <div className='row p-3'>
                     <h3>Contact Details:</h3>
-                    <TextField value={resumeDetails.email} onChange={e=>setResumeDetails({...resumeDetails,email:e.target.value})} id="standard-basic-Email" label="Email" variant="standard" />
-                    <TextField value={resumeDetails.mobile} onChange={e=>setResumeDetails({...resumeDetails,mobile:e.target.value})} id="standard-basic-number" label="Phone number" variant="standard" />
-                    <TextField value={resumeDetails.github} onChange={e=>setResumeDetails({...resumeDetails,github:e.target.value})} id="standard-basic-Github" label="Github Profile Link" variant="standard" />
-                    <TextField value={resumeDetails.linkedin} onChange={e=>setResumeDetails({...resumeDetails,linkedin:e.target.value})} id="standard-basic-LinkedIn" label="LinkedIn Profile Link" variant="standard" />
-                    <TextField value={resumeDetails.portfolio} onChange={e=>setResumeDetails({...resumeDetails,portfolio:e.target.value})} id="standard-basic-portfolio" label="Portfolio Link" variant="standard" />
+                    <TextField value={resumeDetails.email} onChange={e => setResumeDetails({ ...resumeDetails, email: e.target.value })} id="standard-basic-Email" label="Email" variant="standard" />
+                    <TextField value={resumeDetails.mobile} onChange={e => setResumeDetails({ ...resumeDetails, mobile: e.target.value })} id="standard-basic-number" label="Phone number" variant="standard" />
+                    <TextField value={resumeDetails.github} onChange={e => setResumeDetails({ ...resumeDetails, github: e.target.value })} id="standard-basic-Github" label="Github Profile Link" variant="standard" />
+                    <TextField value={resumeDetails.linkedin} onChange={e => setResumeDetails({ ...resumeDetails, linkedin: e.target.value })} id="standard-basic-LinkedIn" label="LinkedIn Profile Link" variant="standard" />
+                    <TextField value={resumeDetails.portfolio} onChange={e => setResumeDetails({ ...resumeDetails, portfolio: e.target.value })} id="standard-basic-portfolio" label="Portfolio Link" variant="standard" />
                 </div>
             )
             case 2: return (
                 <div className='row p-3'>
                     <h3>Educational Details:</h3>
-                    <TextField value={resumeDetails.course} onChange={e=>setResumeDetails({...resumeDetails,course:e.target.value})} id="standard-basic-Course" label="Course Name" variant="standard" />
-                    <TextField value={resumeDetails.collage} onChange={e=>setResumeDetails({...resumeDetails,collage:e.target.value})} id="standard-basic-Collage" label="Collage Name" variant="standard" />
-                    <TextField value={resumeDetails.university} onChange={e=>setResumeDetails({...resumeDetails,university:e.target.value})} id="standard-basic-University" label="University" variant="standard" />
-                    <TextField value={resumeDetails.passoutYear} onChange={e=>setResumeDetails({...resumeDetails,passoutYear:e.target.value})} id="standard-basic-Passout" label="Year of Passout" variant="standard" />
+                    <TextField value={resumeDetails.course} onChange={e => setResumeDetails({ ...resumeDetails, course: e.target.value })} id="standard-basic-Course" label="Course Name" variant="standard" />
+                    <TextField value={resumeDetails.collage} onChange={e => setResumeDetails({ ...resumeDetails, collage: e.target.value })} id="standard-basic-Collage" label="Collage Name" variant="standard" />
+                    <TextField value={resumeDetails.university} onChange={e => setResumeDetails({ ...resumeDetails, university: e.target.value })} id="standard-basic-University" label="University" variant="standard" />
+                    <TextField value={resumeDetails.passoutYear} onChange={e => setResumeDetails({ ...resumeDetails, passoutYear: e.target.value })} id="standard-basic-Passout" label="Year of Passout" variant="standard" />
                 </div>
             )
             case 3: return (
                 <div className='row p-3'>
                     <h3>Proffessional Details:</h3>
-                    <TextField value={resumeDetails.jobType} onChange={e=>setResumeDetails({...resumeDetails,jobType:e.target.value})} id="standard-basic-Job" label="Job  or Interview" variant="standard" />
-                    <TextField value={resumeDetails.company} onChange={e=>setResumeDetails({...resumeDetails,company:e.target.value})} id="standard-basic-Company" label="Company Name" variant="standard" />
-                    <TextField value={resumeDetails.clocation} onChange={e=>setResumeDetails({...resumeDetails,clocation:e.target.value})} id="standard-basic-company-Location" label="Company Location" variant="standard" />
-                    <TextField value={resumeDetails.duration} onChange={e=>setResumeDetails({...resumeDetails,duration:e.target.value})} id="standard-basic-Duration" label="Duration" variant="standard" />
+                    <TextField value={resumeDetails.jobType} onChange={e => setResumeDetails({ ...resumeDetails, jobType: e.target.value })} id="standard-basic-Job" label="Job  or Interview" variant="standard" />
+                    <TextField value={resumeDetails.company} onChange={e => setResumeDetails({ ...resumeDetails, company: e.target.value })} id="standard-basic-Company" label="Company Name" variant="standard" />
+                    <TextField value={resumeDetails.clocation} onChange={e => setResumeDetails({ ...resumeDetails, clocation: e.target.value })} id="standard-basic-company-Location" label="Company Location" variant="standard" />
+                    <TextField value={resumeDetails.duration} onChange={e => setResumeDetails({ ...resumeDetails, duration: e.target.value })} id="standard-basic-Duration" label="Duration" variant="standard" />
 
                 </div>
             )
@@ -125,22 +142,30 @@ function UserInput() {
                 <div>
                     <h3>Skills</h3>
                     <div className='d-flex align-items-center justify-content-between'>
-                        <input className='w-100' placeholder='Add skill' type="text" />
-                        <Button variant='text'>ADD</Button>
+                        <input ref={skillRef} className='w-100' placeholder='Add skill' type="text" />
+                        <Button onClick={() => addSkill(skillRef.current.value)} variant='text'>ADD</Button>
                     </div>
                     <h5>Suggestions :</h5>
                     {/* skill buttons*/}
                     <div>
                         {
                             skillSuggestionArray.map((item, index) => (
-                                <Button className='m-1' key={index} variant="outlined">{item}</Button>
+                                <Button onClick={() => addSkill(item)} className='m-1' key={index} variant="outlined">{item}</Button>
                             ))
                         }
                     </div>
                     <h5>Added Skills</h5>
-                    <div className='d-flex align-items-center justify-content-between'>
-                        <Button variant="contained" className='m-1' >Node <FaNodeJs className='ms-2' /></Button>
+                    <div className='d-flex flex-wrap align-items-center justify-content-between'>
+                        {
+                            resumeDetails.userSkills?.length > 0 ?
+                                resumeDetails.userSkills.map((skill, index) => (
 
+
+                                    <Button key={index} variant="contained" className='m-1' >{skill} <IoMdClose onClick={()=>removeSkill(skill)}/> </Button>
+                                )) 
+                                :
+                                <p className='fw-bolder'>No Skills are added yet!!!</p>
+                        }
                     </div>
                 </div >
             )
@@ -148,14 +173,13 @@ function UserInput() {
                 <div>
                     <h3>Summary</h3>
                     <div className="p-3 row">
-                        <TextField onChange={e=>setResumeDetails({...resumeDetails,summary:e.target.value})} id="standard-basic-summary" label="write a short summary of yourself" variant="standard" multiline rows={4}
+                        <TextField onChange={e => setResumeDetails({ ...resumeDetails, summary: e.target.value })} id="standard-basic-summary" label="write a short summary of yourself" variant="standard" multiline rows={4}
                             defaultValue={'MERN Stack Developer skilled in building full-stack web applications using MongoDB, Express.js, React.js, and Node.js. Experienced in designing responsive front-ends, developing RESTful APIs, and managing databases. Passionate about clean code, performance optimization, and delivering scalable, user-friendly solutions.'} />
 
                     </div>
                 </div>
             )
             default: return
-
 
         }
     }
