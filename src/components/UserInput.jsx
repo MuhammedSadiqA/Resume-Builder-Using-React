@@ -7,53 +7,62 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { IoMdClose } from "react-icons/io";
-import { duration } from '@mui/material';
-import { resume } from 'react-dom/server';
+import {addResumeAPI} from '../services/allAPI';
+import { useNavigate } from 'react-router-dom';
 
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Work Experience', 'Skills & Certifications', 'Review & Submit'];
 
-function UserInput() {
+function UserInput({ resumeDetails, setResumeDetails }) {
     const skillSuggestionArray = ['NODE.JS', 'MONGO DB', 'EXPRESS JS', 'REACT', 'ANGULAR', 'JAVASCRIPT', 'LEADERSHIP', 'COMMUNICATION', 'COACHING', 'POWER BI', 'MS EXCEL']
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
-    //create state for storing resume details
-    const [resumeDetails, setResumeDetails] = React.useState({
-        username: "",
-        jobTitle: "",
-        location: "",
-        email: "",
-        mobile: "",
-        github: "",
-        linkedin: "",
-        portfolio: "",
-        course: "",
-        collage: "",
-        university: "",
-        passoutYear: "",
-        jobType: "",
-        company: "",
-        clocation: "",
-        duration: "",
-        userSkills: [],
-        summary: "",
-    })
+
+
+    // getting props from parent component so we comment this state. what is props? props are used to transfer data from parent to child component here parent is UserForm.jsx and child is UserInput.jsx
+    // const [resumeDetails, setResumeDetails] = React.useState({
+    //     username: "",
+    //     jobTitle: "",
+    //     location: "",
+    //     email: "",
+    //     mobile: "",
+    //     github: "",
+    //     linkedin: "",
+    //     portfolio: "",
+    //     course: "",
+    //     collage: "",
+    //     university: "",
+    //     passoutYear: "",
+    //     jobType: "",
+    //     company: "",
+    //     clocation: "",
+    //     duration: "",
+    //     userSkills: [],
+    //     summary: "",
+    // })
+
     console.log(resumeDetails);
 
     const skillRef = React.useRef()
+
+    const navigate = useNavigate()
 
     const addSkill = (skill) => {
         if (resumeDetails.userSkills.includes(skill)) {
             alert("Skill already added")
         } else {
-            setResumeDetails({ ...resumeDetails, userSkills: [...resumeDetails.userSkills, skill], })
+            setResumeDetails({ ...resumeDetails, userSkills: [...resumeDetails.userSkills, skill] })
             skillRef.current.value = ""
         }
     }
 
     const removeSkill = (skill) => {
-        setResumeDetails({...resumeDetails,userSkills: resumeDetails.userSkills.filter(item=>item!=skill)})
+        setResumeDetails({ ...resumeDetails, userSkills: resumeDetails.userSkills.filter(item => item != skill) })
     }
+
+
+
+
 
     const isStepOptional = (step) => {
         return step === 1;
@@ -96,8 +105,6 @@ function UserInput() {
     const handleReset = () => {
         setActiveStep(0);
     };
-
-
 
     const renderStep = (stepCount) => {
         switch (stepCount) {
@@ -143,7 +150,8 @@ function UserInput() {
                     <h3>Skills</h3>
                     <div className='d-flex align-items-center justify-content-between'>
                         <input ref={skillRef} className='w-100' placeholder='Add skill' type="text" />
-                        <Button onClick={() => addSkill(skillRef.current.value)} variant='text'>ADD</Button>
+                        {/* inside this style background we used color token in app.css for blue which means i am created a variable for a specific color code in universal tag and applying here */}
+                        <Button className='m-3' style={{ backgroundColor: 'var(--main-blue)', color: 'white' }} onClick={() => addSkill(skillRef.current.value)} variant='text'>ADD</Button>
                     </div>
                     <h5>Suggestions :</h5>
                     {/* skill buttons*/}
@@ -161,8 +169,8 @@ function UserInput() {
                                 resumeDetails.userSkills.map((skill, index) => (
 
 
-                                    <Button key={index} variant="contained" className='m-1' >{skill} <IoMdClose onClick={()=>removeSkill(skill)}/> </Button>
-                                )) 
+                                    <Button key={index} variant="contained" className='m-1' >{skill} <IoMdClose onClick={() => removeSkill(skill)} /> </Button>
+                                ))
                                 :
                                 <p className='fw-bolder'>No Skills are added yet!!!</p>
                         }
@@ -180,6 +188,27 @@ function UserInput() {
                 </div>
             )
             default: return
+
+        }
+    }
+
+    const handleAddResume = async () => {
+        const { username, jobTitle, location } = resumeDetails
+        if (!username && !jobTitle && !location) {
+            alert("Please fill the form completely")
+        } else {
+            console.log("Api Call");
+            try{
+                const result= await addResumeAPI(resumeDetails)
+                console.log(result);
+                if(result.status===201){
+                    alert("Resume added successfully")
+                    const {id}=result.data
+                    navigate(`/resume/${id}/view`)
+                }
+            }catch(err){
+                console.log(err);
+            }
 
         }
     }
@@ -236,9 +265,11 @@ function UserInput() {
                                 Skip
                             </Button>
                         )}
-                        <Button onClick={handleNext}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
+
+                        {activeStep === steps.length - 1 ? 
+                        <Button onClick={handleAddResume}>Finish</Button>
+                        :<Button onClick={handleNext}>Next</Button>}
+                        
                     </Box>
                 </React.Fragment>
             )}
