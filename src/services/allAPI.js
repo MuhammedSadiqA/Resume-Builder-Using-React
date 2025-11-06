@@ -12,6 +12,11 @@ export const getResumeAPI=async (id)=>{
   return await commonAPI(`${serverURL}/resume/${id}`,"GET",null)
 }
 // update resume api
+export const UpdateResumeAPI=async (id,resume)=>{
+  return await commonAPI(`${serverURL}/resume/${id}`,"PUT",resume)
+}
 // add history api
+
 // get history api
+
 // remove history api
