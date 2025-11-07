@@ -19,7 +19,7 @@ function UserInput({ resumeDetails, setResumeDetails }) {
     const [skipped, setSkipped] = React.useState(new Set());
 
 
-    // getting props from parent component so we comment this state. what is props? props are used to transfer data from parent to child component here parent is UserForm.jsx and child is UserInput.jsx
+    //Getting props from parent component so we comment this state. what is props? props are used to transfer data from parent to child component here parent is UserForm.jsx and child is UserInput.jsx
     // const [resumeDetails, setResumeDetails] = React.useState({
     //     username: "",
     //     jobTitle: "",

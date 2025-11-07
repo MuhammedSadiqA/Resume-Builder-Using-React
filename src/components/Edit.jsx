@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import { IoMdClose } from "react-icons/io";
+import { UpdateResumeAPI } from '../services/allAPI';
+
 
 const style = {
     position: 'absolute',
@@ -20,6 +22,9 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
+
+
 
 
 export default function Edit({ resumeDetails, setResumeDetails }) {
@@ -42,7 +47,24 @@ export default function Edit({ resumeDetails, setResumeDetails }) {
     const removeSkill = (skill) => {
         setResumeDetails({ ...resumeDetails, userSkills: resumeDetails.userSkills.filter(item => item != skill) })
     }
-
+const handleResume=async ()=>{
+    const {id,username,jobTitle,location}=resumeDetails
+    if(!username&&jobTitle&&!location){
+        alert("please fill the form completely")
+    }else{
+        console.log("api call");
+        try{
+            const result=await UpdateResumeAPI(id,resumeDetails)
+            console.log(result)
+            if(result.status==200){
+                alert("Resume updated succesfully!!")
+                handleClose()
+            }}catch(err){
+                console.log(err);   
+        }
+        
+    }
+}
     return (
         <div>
             <button onClick={handleOpen} className='btn fs-4 text-warning'><FaFileAlt /></button>
@@ -121,7 +143,7 @@ export default function Edit({ resumeDetails, setResumeDetails }) {
                         </div>
                                 {/* Button */}
                                 <div className="text-center d-flex justify-content-end ">
-                                    <div className="btn btn-warning">Update</div>
+                                    <button onClick={handleResume} className="btn btn-warning">Update</button>
                                 </div>
                     </Box>
                 </Box>
