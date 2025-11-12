@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Preview from '../components/Preview.jsx'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { addHistoryAPI, getResumeAPI } from '../services/allAPI.js'
 import { FaDownload } from "react-icons/fa";
 import { BsSkipBackwardCircle } from "react-icons/bs";
@@ -35,7 +35,7 @@ function ViewResume() {
     // local time data = new data
     const localTimeData=new Date()
     console.log(localTimeData);
-    const timeStamp=`${localTimeData.toLocalDataSTring()},${localTimeData.toLocaleTimeString()}`
+    const timeStamp=`${localTimeData.toLocaleDateString()},${localTimeData.toLocaleTimeString()}`
     console.log(timeStamp);
 
     try{
@@ -67,7 +67,7 @@ function ViewResume() {
               <div className="d-flex justify-content-center align-items-center mt-5">
                 <button onClick={handleDownloadResume} className='btn fs-4 text-primary'><FaDownload /></button>
                 <Edit resumeDetails={resume} setResumeDetails={setResume} />
-                <button className='btn fs-4 text-primary'><RiRefreshFill /></button>
+                <Link to={'/history'} className='btn fs-4 text-primary'><RiRefreshFill /></Link>
                 <button className='btn fs-4 text-success'><BsSkipBackwardCircle /></button>
               </div>
             </div>

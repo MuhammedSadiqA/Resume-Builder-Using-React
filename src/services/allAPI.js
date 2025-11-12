@@ -20,5 +20,11 @@ export const addHistoryAPI =async (history)=>{
   return await commonAPI(`${serverURL}/history`,"POST",history)
 }
 // get history api
+export const getHistoryAPI=async ()=>{
+  return await commonAPI(`${serverURL}/history`,"GET",{})
+}
 
 // remove history api
+export const removeHistoryAPI=async(id)=>{
+  return await commonAPI(`${serverURL}/history/${id}`,"DELETE",{})
+}
